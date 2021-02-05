@@ -5,14 +5,14 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-void endProgram(int);
-void handleKeys(SDL_Keysym*);
-void handleEvents();
-void renderOpenGL(unsigned int, unsigned int);
-void setupOpenGL(const char*, const char*, unsigned int*, unsigned int*);
-void resizeOpenGL(int, int);
-SDL_Window* createWindow(int, int, int);
-char* readFile(const char*);
+void endProgram(int code);
+char* readFile(const char* filename);
+char* strapp(const char* str1, const char* str2);
+int handleInput(SDL_Event event);
+int handleKeys(SDL_Keysym* keysym);
+
+int initOpenGL(const char* vertshader, const char* fragshader, unsigned* VAO, unsigned* shaderProgram);
 
 #endif // _MAIN_H
