@@ -8,4 +8,5 @@ Currently ends in segfault :\
 
 ### changelog
 
+#### 2/05/2020   
 filetest.c is now OBSOLETE. It does not use the newly defined functions and leaks memory BADLY. Funnily enough that memory leak isn't the source of the segfault...
