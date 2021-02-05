@@ -1,8 +1,9 @@
 #include "main.h"
 
-int initOpenGL(const char* vertshader, const char* fragshader, unsigned int* VAO, unsigned int* shaderProgram)
+char* initOpenGL(const char* vertshader, const char* fragshader, unsigned int* VAO, unsigned int* shaderProgram)
 {
 	int status;
+	void* ret = malloc(512);
 	glewExperimental = GL_TRUE;
 	glewInit();
 
@@ -25,13 +26,18 @@ int initOpenGL(const char* vertshader, const char* fragshader, unsigned int* VAO
 	glShaderSource(vertexShader, 1, &vertshader, NULL);
 	glCompileShader(vertexShader);
 	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &status);
-	if (status != GL_TRUE) return status;
-
+	if (status != GL_TRUE){
+		glGetShaderInfoLog(vertexShader, 512, NULL, ret);
+		return ret;
+	}
 	unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragmentShader, 1, &fragshader, NULL);
 	glCompileShader(fragmentShader);
 	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &status);
-	if (status != GL_TRUE) return status;
+	if (status != GL_TRUE){
+		glGetShaderInfoLog(fragmentShader, 512, NULL, ret);
+		return ret;
+	}
 
 	*shaderProgram = glCreateProgram();
 	glAttachShader(*shaderProgram, vertexShader);
@@ -44,5 +50,5 @@ int initOpenGL(const char* vertshader, const char* fragshader, unsigned int* VAO
 	glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(posAttrib);
 
-	return 0;
+	return NULL;
 }

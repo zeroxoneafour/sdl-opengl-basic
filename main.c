@@ -35,7 +35,15 @@ int main()
 	unsigned int* VAO = malloc(sizeof(unsigned int));
 	unsigned int* shaderProgram = malloc(sizeof(unsigned int));
 
-	int doLoop = initOpenGL(vertshader, fragshader, VAO, shaderProgram);
+	char* glStatus = initOpenGL(vertshader, fragshader, VAO, shaderProgram);
+
+	int doLoop = 1;
+
+	if (glStatus != NULL) {
+		fprintf(stderr, "Failure - OpenGL shaders couldn't initialize - %s\n", glStatus);
+		doLoop = 0;
+		return 1;
+	}
 
 	SDL_Event event;
 
@@ -46,6 +54,7 @@ int main()
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		glViewport(0, 0, width, height);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		SDL_GL_SwapWindow(window);
